@@ -3,7 +3,9 @@ import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import FloatingMenu from '../layout/FloatingMenu';
 
-const PROFILE_IMAGE = '/profile.jpg'; // Place your image in public/profile.jpg
+// asset paths need to honor the Vite `base` (e.g. "/portfolio/")
+// using import.meta.env.BASE_URL automatically includes it both in dev and build
+const PROFILE_IMAGE = import.meta.env.BASE_URL + 'profile.jpg'; // image located in public/profile.jpg
 
 export default function Layout() {
   const { theme, toggleTheme } = useTheme();

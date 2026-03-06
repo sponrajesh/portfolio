@@ -1,11 +1,12 @@
 import { Home, User, Boxes, Youtube, FileStack } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const MENU_ITEMS = [
   { path: '/', label: 'Home', icon: Home },
-  { path: '/react-projects', label: 'React Projects', icon: FileStack },
-  { path: '/blender-projects', label: 'Blender Projects', icon: Boxes },
-  { path: '/youtube', label: 'YouTube', icon: Youtube },
+  // paths are intentionally *relative*; BrowserRouter's basename handles prefixing
+  { path: 'react-projects', label: 'React Projects', icon: FileStack },
+  { path: 'blender-projects', label: 'Blender Projects', icon: Boxes },
+  { path: 'youtube', label: 'YouTube', icon: Youtube },
 ];
 
 // Semicircle (off-circle): items along the top half only (flat edge at bottom)
@@ -24,7 +25,6 @@ function getSemicirclePosition(index) {
 }
 
 export default function FloatingMenu({ profileImageSrc, className = '' }) {
-  const location = useLocation();
 
   return (
     <aside
@@ -43,7 +43,6 @@ export default function FloatingMenu({ profileImageSrc, className = '' }) {
         {MENU_ITEMS.map((item, i) => {
           const { x, y } = getSemicirclePosition(i);
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
 
           return (
             <div
@@ -53,9 +52,10 @@ export default function FloatingMenu({ profileImageSrc, className = '' }) {
                 transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
               }}
             >
-              <Link
+              <NavLink
                 to={item.path}
-                className={`
+                end={item.path === '/'}
+                className={({ isActive }) => `
                   flex items-center justify-center w-10 h-10 rounded-full
                   bg-white dark:bg-slate-800
                   border-2 border-teal-500 dark:border-teal-400
@@ -68,7 +68,7 @@ export default function FloatingMenu({ profileImageSrc, className = '' }) {
                 aria-label={item.label}
               >
                 <Icon className="w-4 h-4" strokeWidth={2} />
-              </Link>
+              </NavLink>
               <span
                 className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 rounded-md
                   text-xs font-medium whitespace-nowrap

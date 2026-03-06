@@ -8,10 +8,11 @@ import YouTube from './sections/YouTube';
 
 function App() {
 
-  
+
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      {/* use basename so the router works when app is served from /portfolio/ */}
+      <BrowserRouter basename="/portfolio">
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
